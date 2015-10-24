@@ -16,11 +16,14 @@ Watch a file :
 Help :
 >$ auto-compile -h
 
+FR
 
 Regarde vos fichiers .c et les compile quand vous mofifier un fichier
 
 -Ajoutez auto-compile à votre PATH
+
 -Créez un Makefile dans votre projet
+
 -C'est bon!
 
 Regarder un dossier (trouve tous les fichiers de manière récursive):
