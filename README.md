@@ -1,9 +1,9 @@
 # auto-compile
 Watch your .c files and compile it when you save a file
 
--Add auto-compile to your PATH
--Create a Makefile for your project
--Run it!
+Add auto-compile to your PATH
+Create a Makefile for your project
+Run it!
 
 Watch a directory (find all files recursively):
 >$ auto-compile ~/Projects/toto
