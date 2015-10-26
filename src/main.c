@@ -49,11 +49,9 @@ char *autoCompileOpt(int argc, char **argv) {
 
   int c;
   int i;
-  int digit_optind = 0;
 
   i = 0;
   while (1) {
-    int this_option_optind = optind ? optind : 1;
     int option_index = 0;
     static struct option long_options[] = {
       {"directory", required_argument, 0, 'd'},
@@ -98,11 +96,10 @@ char *autoCompileOpt(int argc, char **argv) {
   return ("");
 }
 
-void make(char **env) {
+void make() {
 
   int     pid;
   int     status;
-  extern char **environ;
 
   pid = fork();
   if (pid == 0) {
@@ -116,7 +113,7 @@ void make(char **env) {
     }
 }
 
-int spyFile(char *file_path, char **env) {
+int spyFile(char *file_path) {
 
   struct stat st;
   long old;
@@ -130,7 +127,7 @@ int spyFile(char *file_path, char **env) {
       return -1;
     if (st.st_mtime != old) {
       printf("\033[0;32mFile %s change :\e[0m\n", file_path);
-      make(env);
+      make();
       old = st.st_mtime;
     }
   }
@@ -174,7 +171,7 @@ int getFiles(char *dir_path, f_list **fl, f_list *tmp) {
   return (closedir(dir));
 }
 
-int spyDir(char *dir_path, char **env) {
+int spyDir(char *dir_path) {
 
   f_list  *fl;
   f_list  *tmp;
@@ -188,12 +185,11 @@ int spyDir(char *dir_path, char **env) {
       return (-1);
     tmp = fl;
     while (tmp != NULL) {
-      tmp->path;
       if (stat(tmp->path, &st) != 0)
         return (-1);
       if (st.st_mtime != tmp->old) {
         printf("\033[0;32mFile %s change :\e[0m\n", tmp->path);
-        make(env);
+        make();
         tmp->old = st.st_mtime;
       }
       tmp = tmp->next;
@@ -202,27 +198,27 @@ int spyDir(char *dir_path, char **env) {
   }
 }
 
-int spy(char *opt, char **env) {
+int spy(char *opt) {
 
   struct stat st;
   if (stat(opt, &st) != 0)
     return (-1);
   if (S_ISREG(st.st_mode))
-    return (spyFile(opt, env));
+    return (spyFile(opt));
   else if (S_ISDIR(st.st_mode))
-    return (spyDir(opt, env));
+    return (spyDir(opt));
   printf("%s does not exist\n", opt);
   return (-1);
 }
 
-int main(int argc, char **argv, char **env)
+int main(int argc, char **argv)
 {
   char *opt;
 
   opt = autoCompileOpt(argc, argv);
   printf("%s\n", opt);
   if (strcmp(opt, "") != 0)
-    return (spy(opt, env));
+    return (spy(opt));
   else
     printf ("Try --help, -h for more results\n");
   return (0);

@@ -1,28 +1,37 @@
-SRC		= $(SRC_FOLDER)main.c		\
-
-SRC_FOLDER	= src/
+##
+## Makefile for  in /home/babiole/Documents/auto-compile
+##
+## Made by Babiole,,,
+## Login   <babiole@epitech.net>
+##
+## Started on  lundi 26  Babiole,,,
+## Last update lundi 26  Babiole,,,
+##
 
 CC		= gcc
 
-CFLAGS		= -W -Wall
-
-RM		= rm -rf
-
-CFLAGS		= -Iinclude
-
-OBJ		= $(SRC:.c=.o)
+RM		= rm -f
 
 NAME		= auto-compile
 
-$(NAME) : $(OBJ)
-	  $(CC) -o $(NAME) $(OBJ)
+SRCS		= src/main.c
 
-all	: $(NAME)
+OBJS		= $(SRCS:.c=.o)
 
-clean	:
-	  $(RM) $(OBJ)
+CFLAGS		= -I./include -Wall -Wextra -W
 
-fclean	: clean
-	  $(RM) $(NAME)
+$(NAME):	$(OBJS)
 
-re	: fclean all
+		$(CC) -o $(NAME) $(OBJS) $(LIB) 
+
+all:		$(NAME)
+
+clean:
+		$(RM) $(OBJS)
+
+fclean:		clean
+		$(RM) $(NAME)
+
+re:		fclean all
+
+.PHONY:		all clean fclean re
